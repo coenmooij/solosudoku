@@ -1,1 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+*,
+::after,
+::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%; // 1rem = 10px
+  background-color: whitesmoke;
+  text-rendering: optimizeLegibility;
+  height: 100%;
+}
+
+body {
+  font-size: 1.6rem;
+  line-height: 1.7;
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  line-height: 1.4;
+  margin: 0;
+  font-family: 'Roboto Mono', monospace;
+}
