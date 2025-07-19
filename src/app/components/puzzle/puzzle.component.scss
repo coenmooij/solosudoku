@@ -1,0 +1,59 @@
+.puzzle {
+  margin: 3.2rem 0;
+}
+
+.puzzle__table {
+  width: 100%;
+  aspect-ratio: 1;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+/* Row */
+.puzzle__row:first-child {
+  border-top: solid;
+}
+
+.puzzle__row:nth-child(3n) .puzzle__cell {
+  border-bottom: solid;
+}
+
+/* Cell */
+.puzzle__cell {
+  text-align: center;
+  font-size: 2.8rem;
+  aspect-ratio: 1;
+  user-select: none;
+  border: 1px solid #000000;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #dedede;
+  }
+
+  &:active:hover {
+    background-color: #cdcdcd;
+  }
+
+  &--selected {
+    background-color: #bff;
+
+    &:hover {
+      background-color: #cee;
+    }
+  }
+
+  &--given {
+    font-weight: bold;
+  }
+
+  &:first-child {
+    border-left: solid;
+  }
+
+  &:nth-child(3n) {
+    border-right: solid;
+  }
+
+
+}

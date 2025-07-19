@@ -1,0 +1,15 @@
+<div class="puzzle">
+    <table class="puzzle__table">
+        <tr class="puzzle__row" *ngFor="let row of puzzle.rows; index as rowIndex">
+            <td
+                    class="puzzle__cell"
+                    *ngFor="let column of row; index as columnIndex"
+                    (click)="onSelectCell(rowIndex,columnIndex)"
+                    [class.puzzle__cell--given]="column.wasGiven"
+                    [class.puzzle__cell--selected]="rowIndex === selectedCell[0] && columnIndex === selectedCell[1]"
+            >
+                {{ column.value === 0 ? ' ' : column.value }}
+            </td>
+        </tr>
+    </table>
+</div>

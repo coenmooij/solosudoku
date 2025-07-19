@@ -1,7 +1,8 @@
-<ss-puzzle-summary [numberOfStars]="4">
-    Difficulty: Normal
+<ss-puzzle-summary [numberOfStars]="difficulty.stars">
+    Difficulty: {{ difficulty.name }}
 </ss-puzzle-summary>
 
+<ss-puzzle *ngIf="puzzle" [puzzle]="puzzle"></ss-puzzle>
 <!--Puzzle-->
 <!--Controls-->
 <!--New Puzzle-->
