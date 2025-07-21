@@ -6,15 +6,14 @@
 - Navigate puzzle with arrow keys
 - fill in cells using number keys
 - remove cell value with backspace or 0
-- Check for mistakes
-- Auto-reset mistake notification on change
+- Check for Mistakes
+- Reset Puzzle
 
 ## Roadmap
 - Generate puzzles
 - horizontal layout
 - auto-solve
 - hint / hints used
-- reset
 - no-distractions mode
 - game history
 - add font awesome

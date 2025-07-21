@@ -48,4 +48,9 @@ export class HomePage implements OnInit {
   public onCheckForMistakes(): void {
     this.isValid = this.validatorService.isValid(this.puzzle as Puzzle);
   }
+
+  public onReset(): void {
+    this.puzzleService.reset(this.puzzle as Puzzle);
+    this.isValid = undefined;
+  }
 }

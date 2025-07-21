@@ -13,6 +13,14 @@ export class PuzzleService {
     return of(this.puzzle).pipe(map(this.deserialize));
   }
 
+  public reset(puzzle: Puzzle): void {
+    puzzle.rows.forEach((row: Cell[]) => row.forEach((cell: Cell) => {
+      if (!cell.wasGiven) {
+        cell.value = 0;
+      }
+    }));
+  }
+
   public getColumns(puzzle: Puzzle): Cell[][] {
     const columns: Cell[][] = [];
     for (let rowIndex: number = 0; rowIndex < 9; rowIndex++) {
