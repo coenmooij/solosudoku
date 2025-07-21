@@ -2,7 +2,19 @@
     Difficulty: {{ difficulty.name }}
 </ss-puzzle-summary>
 
-<ss-puzzle *ngIf="puzzle" [puzzle]="puzzle"></ss-puzzle>
-<!--Puzzle-->
-<!--Controls-->
+<ss-puzzle *ngIf="puzzle" [puzzle]="puzzle" (cellUpdate)="isValid = undefined"></ss-puzzle>
+
+<ss-notification *ngIf="isValid === false">
+    Oops! Looks like you've made a mistake. Do you think you can find it without resetting?
+</ss-notification>
+
+<ss-notification *ngIf="!!isValid">
+    Looks like you're on the right track. No problems in your current puzzle.
+</ss-notification>
+<br>
+
+<ss-bar>
+    <ss-button (buttonClick)="onCheckForMistakes()">Check for mistakes</ss-button>
+</ss-bar>
+
 <!--New Puzzle-->

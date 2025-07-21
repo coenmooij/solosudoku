@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { PuzzleSummaryComponent } from '../../components';
-import { Difficulty, Position, Puzzle, PuzzleService } from '../../core';
-import { PuzzleComponent } from '../../components/puzzle';
+import {
+  BarComponent,
+  ButtonComponent,
+  NotificationComponent,
+  PuzzleComponent,
+  PuzzleSummaryComponent,
+} from '../../components';
+import { Difficulty, Puzzle, PuzzleService, ValidatorService } from '../../core';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -10,6 +15,9 @@ import { NgIf } from '@angular/common';
     PuzzleSummaryComponent,
     PuzzleComponent,
     NgIf,
+    BarComponent,
+    ButtonComponent,
+    NotificationComponent,
   ],
   templateUrl: 'home.page.html',
 })
@@ -17,6 +25,7 @@ export class HomePage implements OnInit {
 
   public difficulty!: Difficulty;
   public puzzle?: Puzzle;
+  public isValid?: boolean;
 
   // TODO: Const / Enum for difficulty names
   public difficulties: Difficulty[] = [
@@ -27,12 +36,16 @@ export class HomePage implements OnInit {
     {name: 'Legendary', stars: 5},
   ];
 
-  constructor(private puzzleService: PuzzleService) {
+  constructor(private puzzleService: PuzzleService, private validatorService: ValidatorService) {
   }
 
   public ngOnInit(): void {
     this.difficulty = this.difficulties[2];
 
     this.puzzleService.getPuzzle$(this.difficulty).subscribe((puzzle: Puzzle) => this.puzzle = puzzle);
+  }
+
+  public onCheckForMistakes(): void {
+    this.isValid = this.validatorService.isValid(this.puzzle as Puzzle);
   }
 }

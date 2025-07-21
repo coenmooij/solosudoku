@@ -1,0 +1,16 @@
+.button {
+  background-color: navajowhite;
+  color: #232323;
+  padding: 1.2rem 1.6rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(97%);
+  }
+
+  &:active {
+    transform: translate(1px, 1px);
+  }
+}

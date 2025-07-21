@@ -4,3 +4,5 @@ export * from './puzzle-summary';
 export * from './bar';
 export * from './icon';
 export * from './puzzle';
+export * from './button';
+export * from './notification';

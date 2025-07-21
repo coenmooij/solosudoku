@@ -1,4 +1,4 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { Cell, Position, Puzzle } from '../../core';
 import { NgForOf } from '@angular/common';
 
@@ -23,6 +23,8 @@ export class PuzzleComponent {
 
   @Input({required: true}) public puzzle!: Puzzle;
 
+  @Output() public cellUpdate: EventEmitter<void> = new EventEmitter<void>();
+
   public selectedCell: Position = [4, 4];
 
   public onSelectCell(rowIndex: number, columnIndex: number): void {
@@ -32,7 +34,9 @@ export class PuzzleComponent {
   private handleNumber(number: number): void {
     const cell: Cell = this.puzzle.rows[this.selectedCell[0]][this.selectedCell[1]];
     if (cell.wasGiven) return;
+
     cell.value = number;
+    this.cellUpdate.emit();
   }
 
   private handleMove(arrowKey: string): void {
