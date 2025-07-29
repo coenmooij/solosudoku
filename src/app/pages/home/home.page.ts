@@ -12,7 +12,7 @@ import { Bitmask, Cell, Puzzle } from '@solosudoku/models';
 })
 export class HomePage implements OnInit {
   public puzzle?: Puzzle;
-  public grid: Cell[] = [];
+  public grid: Cell[][] = [];
   public isValid?: boolean; // TODO : Change to state object
   public difficultyControl: FormControl = new FormControl('medium');
 
@@ -28,14 +28,16 @@ export class HomePage implements OnInit {
     this.isValid = undefined; // TODO : Set initial state
 
     // TODO : Move to gridhelper
-    this.grid.forEach((cell: Cell) => {
-      if (!cell.wasGiven) {
-        cell.value = 0;
-        cell.options = [];
-        cell.possibilities = Bitmask.Possibilities;
-        cell.undo = [];
-      }
-    });
+    this.grid.forEach((row: Cell[]): void =>
+      row.forEach((cell: Cell): void => {
+        if (!cell.wasGiven) {
+          cell.value = 0;
+          cell.options = [];
+          cell.possibilities = Bitmask.Possibilities;
+          cell.undo = [];
+        }
+      }),
+    );
   }
 
   public onNewPuzzle(): void {
@@ -46,6 +48,19 @@ export class HomePage implements OnInit {
 
   private loadPuzzle(puzzle: Puzzle): void {
     this.puzzle = puzzle;
-    this.grid = GridHelper.createCellGrid(puzzle.puzzle);
+    const flatGrid: Cell[] = GridHelper.createCellGrid(puzzle.puzzle);
+    this.grid = this.convertFlatGrid(flatGrid);
+  }
+
+  // TODO : Move to GridHelper or delete
+  private convertFlatGrid(flatGrid: Cell[]): Cell[][] {
+    const grid: Cell[][] = [];
+    for (let rowIndex: number = 0; rowIndex < 9; rowIndex++) {
+      grid.push([]);
+      for (let columnIndex: number = 0; columnIndex < 9; columnIndex++) {
+        grid[rowIndex].push(flatGrid[rowIndex * 9 + columnIndex]);
+      }
+    }
+    return grid;
   }
 }
