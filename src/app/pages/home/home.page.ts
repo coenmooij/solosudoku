@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { BarComponent, ButtonComponent, NotificationComponent, PuzzleComponent } from '@solosudoku/components';
 import { PuzzleGenerator } from '@solosudoku/core';
+import { GridHelper, GridValidator } from '@solosudoku/helpers';
 import { Bitmask, Cell, Puzzle } from '@solosudoku/models';
-import { BarComponent, ButtonComponent, NotificationComponent, PuzzleComponent } from '../../components';
-import { GridHelper, GridValidator } from '../../helpers';
 
 @Component({
   selector: 'ss-home',

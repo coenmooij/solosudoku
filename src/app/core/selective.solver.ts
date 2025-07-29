@@ -1,6 +1,5 @@
+import { BitmaskHelper, GridHelper, Randomizer } from '@solosudoku/helpers';
 import { Cell, Grid, Position, UnsolvableException } from '@solosudoku/models';
-import { GridHelper, Randomizer } from '../helpers';
-import { BitmaskHelper } from '../helpers/bitmask.helper';
 
 export class SelectiveSolver {
   /** Selectively finds a solution by only filling the positions provided */

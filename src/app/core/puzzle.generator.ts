@@ -1,7 +1,7 @@
+import { ConfigurationService } from '@solosudoku/configuration';
 import { Randomizer, wrapInPromise } from '@solosudoku/helpers';
 import { DifficultyConfig, Grid, Position, Puzzle, RatingType } from '@solosudoku/models';
 import { from, Observable } from 'rxjs';
-import { ConfigurationService } from '../configuration';
 import { Digger } from './digger';
 import { SolutionGenerator } from './solution.generator';
 

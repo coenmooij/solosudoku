@@ -1,4 +1,4 @@
-import { BitmaskHelper } from '../app/helpers/bitmask.helper';
+import { BitmaskHelper } from '@solosudoku/helpers';
 
 describe('BitmaskHelper', () => {
   it('should add', () => {

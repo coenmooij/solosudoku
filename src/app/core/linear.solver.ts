@@ -1,6 +1,5 @@
+import { BitmaskHelper, GridHelper, Randomizer } from '@solosudoku/helpers';
 import { Cell, Grid, UnsolvableException } from '@solosudoku/models';
-import { GridHelper, Randomizer } from '../helpers';
-import { BitmaskHelper } from '../helpers/bitmask.helper';
 
 export class LinearSolver {
   public static solve(grid: Grid): Grid {

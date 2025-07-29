@@ -1,5 +1,4 @@
-import { Grid } from '../types/grid.type';
-import { RatingType } from '../types/rating.type';
+import { Grid, RatingType } from '../types';
 
 export interface Puzzle {
   rating: RatingType;

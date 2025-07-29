@@ -15,7 +15,7 @@
     "target": "ES2022",
     "module": "preserve",
     "paths": {
-      "@solosudoku/ui": ["./src/app/ui"],
+      "@solosudoku/components": ["./src/app/components"],
       "@solosudoku/configuration": ["./src/app/configuration"],
       "@solosudoku/core": ["./src/app/core"],
       "@solosudoku/helpers": ["./src/app/helpers"],

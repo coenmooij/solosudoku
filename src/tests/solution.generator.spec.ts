@@ -1,4 +1,4 @@
-import { SolutionGenerator } from '../app/core';
+import { SolutionGenerator } from '@solosudoku/core';
 
 describe('SolutionGenerator', () => {
   it(`measures average performance of generate over 1000 calls`, () => {
@@ -16,7 +16,8 @@ describe('SolutionGenerator', () => {
     expect(average).toBeLessThan(1); // 1ms
   });
 });
-// Benchmarks in microseconds (µs)
+
+/** Benchmarks in microseconds (µs) */
 // first try - 260 - 290
 // JSON stringify slow compare - 250 - 280    // 10µs improvement
 // replace error with boolean return - 210-230 // 40µs improvement
