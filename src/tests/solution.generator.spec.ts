@@ -26,3 +26,4 @@ describe('SolutionGenerator', () => {
 // Replaced Cell[][] with Cell[] array // 85-90 // 10µs improvement
 // Replace removePossibilities arrays // 55-60 // 30µs improvement
 // Fix possibilities overhead // 50-55 // 5µs improvement
+// Implement linear solver // 45-55 // 5µs improvement
