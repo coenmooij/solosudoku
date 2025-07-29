@@ -3,13 +3,14 @@
 }
 
 .puzzle__table {
-  width: 100%;
-  aspect-ratio: 1;
   margin: 0 auto;
+  width: 100%;
   border-collapse: collapse;
+  aspect-ratio: 1;
 }
 
 /* Row */
+
 .puzzle__row:first-child {
   border-top: solid;
 }
@@ -19,13 +20,16 @@
 }
 
 /* Cell */
+
 .puzzle__cell {
+  border: 1px solid #000;
+  cursor: pointer;
+  width: 2.8rem;
+  height: 2.8rem;
   text-align: center;
   font-size: 2.8rem;
   aspect-ratio: 1;
   user-select: none;
-  border: 1px solid #000000;
-  cursor: pointer;
 
   &:hover {
     background-color: #dedede;
@@ -33,6 +37,14 @@
 
   &:active:hover {
     background-color: #cdcdcd;
+  }
+
+  &:nth-child(3n) {
+    border-right: solid;
+  }
+
+  &:first-child {
+    border-left: solid;
   }
 
   &--selected {
@@ -46,14 +58,4 @@
   &--given {
     font-weight: bold;
   }
-
-  &:first-child {
-    border-left: solid;
-  }
-
-  &:nth-child(3n) {
-    border-right: solid;
-  }
-
-
 }

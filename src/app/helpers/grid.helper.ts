@@ -1,0 +1,161 @@
+import { Bitmask, Cell, Grid, Position } from '@solosudoku/models';
+import { COLUMN_POSITIONS } from '../configuration/column.position.config';
+import { ROW_POSITIONS } from '../configuration/row.position.config';
+import { BitmaskHelper } from './bitmask.helper';
+
+export class GridHelper {
+  public static createEmptyGrid(): Grid {
+    const grid: Grid = [];
+    for (let rowIndex: number = 0; rowIndex < 9; rowIndex++) {
+      grid.push([]);
+      for (let columnIndex: number = 0; columnIndex < 9; columnIndex++) {
+        grid[rowIndex].push(0);
+      }
+    }
+    return grid;
+  }
+
+  public static createCellGrid(grid: Grid): Cell[][] {
+    return grid.map((row: number[]): Cell[] =>
+      row.map((value: number): Cell => {
+        let possibilities: number = Bitmask.Possibilities;
+
+        if (value) possibilities = BitmaskHelper.unset(possibilities, value);
+
+        return { value, wasGiven: !!value, options: [], undo: [], possibilities };
+      }),
+    );
+  }
+
+  public static addPossibilities(grid: Cell[][], positions: Position[], value: number): void {
+    positions.forEach(([rowIndex, columnIndex]: Position) => {
+      const cell: Cell = grid[rowIndex][columnIndex];
+
+      if (BitmaskHelper.isSet(cell.possibilities, value)) return;
+
+      cell.possibilities = BitmaskHelper.set(cell.possibilities, value);
+    });
+  }
+
+  public static toGrid(cellGrid: Cell[][]): Grid {
+    return cellGrid.map((row: Cell[]): number[] => row.map((cell: Cell): number => cell.value));
+  }
+
+  public static setValue(grid: Cell[][], position: Position, newValue: number): boolean {
+    const [rowIndex, columnIndex] = position;
+    const cell: Cell = grid[rowIndex][columnIndex];
+    cell.value = newValue;
+
+    const positions: Position[] = [
+      ...ROW_POSITIONS[rowIndex],
+      ...COLUMN_POSITIONS[columnIndex],
+      ...this.getBoxPositions([rowIndex, columnIndex]),
+    ];
+
+    const undoPositions: Position[] | null = this.removePossibilities(grid, positions, newValue);
+
+    cell.undo = undoPositions ?? [];
+    return !!undoPositions;
+  }
+
+  private static removePossibilities(grid: Cell[][], positions: Position[], value: number): Position[] | null {
+    const affectedPositions: Position[] = positions
+      .filter(([rowIndex, columnIndex]: Position) =>
+        BitmaskHelper.isSet(grid[rowIndex][columnIndex].possibilities, value),
+      )
+      .map(([rowIndex, columnIndex]: Position) => {
+        const cell: Cell = grid[rowIndex][columnIndex];
+        cell.possibilities = BitmaskHelper.unset(cell.possibilities, value);
+
+        return [rowIndex, columnIndex];
+      });
+
+    const invalidCells: Position[] = affectedPositions.filter(([rowIndex, columnIndex]: Position) => {
+      const cell: Cell = grid[rowIndex][columnIndex];
+      return BitmaskHelper.isEmpty(cell.possibilities) && cell.value === 0;
+    });
+
+    if (invalidCells.length === 0) return affectedPositions;
+
+    affectedPositions.forEach(([rowIndex, columnIndex]: Position) => {
+      const cell: Cell = grid[rowIndex][columnIndex];
+      cell.possibilities = BitmaskHelper.set(cell.possibilities, value);
+    });
+
+    return null;
+  }
+
+  public static getColumnValues(grid: Grid, columnIndex: number): number[] {
+    const values: number[] = [];
+    for (let rowIndex: number = 0; rowIndex < 9; rowIndex++) {
+      values.push(grid[rowIndex][columnIndex]);
+    }
+    return values;
+  }
+
+  public static getBoxValues(grid: Grid, position: Position): number[] {
+    const positions: Position[] = this.getBoxPositions(position);
+
+    return positions.map(([rowIndex, columnIndex]: Position) => grid[rowIndex][columnIndex]);
+  }
+
+  public static getBoxPositions(position: Position): Position[] {
+    const [firstRowIndex, firstColumnIndex] = this.getFirstBoxPosition(position);
+    const positions: Position[] = [];
+
+    for (let rowIndex: number = firstRowIndex; rowIndex < firstRowIndex + 3; rowIndex++) {
+      for (let columnIndex: number = firstColumnIndex; columnIndex < firstColumnIndex + 3; columnIndex++) {
+        positions.push([rowIndex, columnIndex]);
+      }
+    }
+    return positions;
+  }
+
+  private static getFirstBoxPosition(position: Position): Position {
+    const [rowIndex, columnIndex] = position;
+    const firstRowIndex: number = Math.floor(rowIndex / 3) * 3;
+    const firstColumnIndex: number = Math.floor(columnIndex / 3) * 3;
+
+    return [firstRowIndex, firstColumnIndex];
+  }
+
+  public static getColumns(cellGrid: Cell[][]): Cell[][] {
+    const columns: Cell[][] = [];
+    for (let rowIndex: number = 0; rowIndex < 9; rowIndex++) {
+      for (let columnIndex: number = 0; columnIndex < 9; columnIndex++) {
+        if (rowIndex === 0) columns.push([]);
+        columns[columnIndex].push(cellGrid[rowIndex][columnIndex]);
+      }
+    }
+    return columns;
+  }
+
+  public static getBoxes(cellGrid: Cell[][]): Cell[][] {
+    const boxes: Cell[][] = [];
+    for (let boxIndex: number = 0; boxIndex < 9; boxIndex++) {
+      const box: Cell[] = this.getBoxByIndex(cellGrid, boxIndex);
+      boxes.push(box);
+    }
+    return boxes;
+  }
+
+  public static getBoxByIndex(cellGrid: Cell[][], boxIndex: number): Cell[] {
+    const mod3: number = boxIndex % 3;
+    const firstRowIndex: number = boxIndex - mod3;
+    const firstColumnIndex: number = mod3 * 3;
+
+    return this.getBox(cellGrid, firstRowIndex, firstColumnIndex);
+  }
+
+  public static getBox(grid: Cell[][], firstRowIndex: number, firstColumnIndex: number): Cell[] {
+    const box: Cell[] = [];
+
+    for (let rowIndex: number = firstRowIndex; rowIndex < firstRowIndex + 3; rowIndex++) {
+      for (let columnIndex: number = firstColumnIndex; columnIndex < firstColumnIndex + 3; columnIndex++) {
+        box.push(grid[rowIndex][columnIndex]);
+      }
+    }
+
+    return box;
+  }
+}

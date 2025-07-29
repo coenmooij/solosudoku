@@ -1,6 +1,7 @@
 # Solo Sudoku
 
 ## Features
+
 - See puzzle
 - See difficulty rating of puzzle
 - Navigate puzzle with arrow keys
@@ -10,15 +11,24 @@
 - Reset Puzzle
 
 ## Roadmap
+
 - Generate puzzles
-- horizontal layout
-- auto-solve
-- hint / hints used
-- no-distractions mode
-- game history
+- unit tests
+
+- auto-solve simple
+- auto-solve hard
+
 - add font awesome
+- horizontal layout
+- no-distractions mode
+- footer
+
+## New Features
+
 - mistake highlighting
 - timer
 - number buttons for mobile
-- unit tests
-- footer
+- hint / hints used
+- game history
+- Create a library for sudoku gen
+  - custom sudoku difficulty params

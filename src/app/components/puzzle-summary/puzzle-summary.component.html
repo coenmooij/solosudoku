@@ -1,9 +1,13 @@
 <div class="puzzle-summary">
-    <div class="puzzle-summary__rating">
-        <span *ngFor="let _ of [].constructor(numberOfStars)">&#9733;</span>
-        <span *ngFor="let _ of [].constructor(maxNumberOfStars-numberOfStars)">&#9734;</span>
-    </div>
-    <h3 class="puzzle-summary__content">
-        <ng-content></ng-content>
-    </h3>
+  <div class="puzzle-summary__rating">
+    @for (_ of [].constructor(numberOfStars); track $index) {
+      <span>&#9733;</span>
+    }
+    @for (_ of [].constructor(maxNumberOfStars - numberOfStars); track $index) {
+      <span>&#9734;</span>
+    }
+  </div>
+  <h3 class="puzzle-summary__content">
+    <ng-content></ng-content>
+  </h3>
 </div>

@@ -1,21 +1,45 @@
-<ss-puzzle-summary [numberOfStars]="difficulty.stars">
-    Difficulty: {{ difficulty.name }}
-</ss-puzzle-summary>
+<!--TODO : Add difficulty back-->
+<!--  <ss-puzzle-summary [numberOfStars]="difficulty.stars">-->
+<!--    Difficulty: {{ difficulty.name }}-->
+<!--  </ss-puzzle-summary>-->
 
-<ss-puzzle *ngIf="puzzle" [puzzle]="puzzle" (cellUpdate)="isValid = undefined"></ss-puzzle>
+@if (grid) {
+  <ss-puzzle [grid]="grid" (cellUpdate)="isValid = undefined"></ss-puzzle>
+}
 
-<ss-notification *ngIf="isValid === false">
+<!--TODO : Use proper state instead of undefined boolean-->
+@if (isValid === false) {
+  <ss-notification>
     Oops! Looks like you've made a mistake. Do you think you can find it without resetting?
-</ss-notification>
+  </ss-notification>
+}
 
-<ss-notification *ngIf="!!isValid">
-    Looks like you're on the right track. No problems in your current puzzle.
-</ss-notification>
-<br>
+@if (isValid) {
+  <ss-notification>Looks like you're on the right track. No problems in your current puzzle.</ss-notification>
+}
+
+<!--TODO : Wrap in section or divider component-->
+<br />
+<hr />
+<br />
 
 <ss-bar>
-    <ss-button (buttonClick)="onCheckForMistakes()">Check for mistakes</ss-button>
-    <ss-button (buttonClick)="onReset()">Reset Puzzle</ss-button>
+  <ss-button (buttonClick)="onCheckForMistakes()">Check for mistakes</ss-button>
+  <ss-button (buttonClick)="onReset()">Reset Puzzle</ss-button>
 </ss-bar>
 
 <!--New Puzzle-->
+<!-- TODO : section / radio / input / label component-->
+<br />
+<hr />
+<br />
+<h3>Generate New Puzzle</h3>
+<label for="difficulty">Choose Difficulty</label>
+<br />
+<select id="difficulty" type="radio" [formControl]="difficultyControl">
+  <!--  @for (difficulty of difficulties; track $index) {-->
+  <!--    <option [value]="difficulty.rating">{{ difficulty.name }}</option>-->
+  <!--  }-->
+</select>
+<br /><br />
+<ss-button (buttonClick)="onNewPuzzle()">New Puzzle</ss-button>

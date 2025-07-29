@@ -13,7 +13,16 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "preserve"
+    "module": "preserve",
+    "paths": {
+      "@solosudoku/ui": ["./src/app/ui"],
+      "@solosudoku/configuration": ["./src/app/configuration"],
+      "@solosudoku/core": ["./src/app/core"],
+      "@solosudoku/helpers": ["./src/app/helpers"],
+      "@solosudoku/layout": ["./src/app/layout"],
+      "@solosudoku/models": ["./src/app/models"],
+      "@solosudoku/pages": ["./src/app/pages"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
