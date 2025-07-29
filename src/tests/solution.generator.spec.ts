@@ -23,3 +23,4 @@ describe('SolutionGenerator', () => {
 // replace with bitmask operators // 140-150 // 70µs improvement
 // Replace row and column positions // 95-105 // 45µs improvement
 // Replace box positions / 90 - 105 // 5µs improvement
+// Replaced Cell[][] with Cell[] array // 85-90 // 10µs improvement

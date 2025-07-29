@@ -16,21 +16,23 @@ export class GridHelper {
     return grid;
   }
 
-  public static createCellGrid(grid: Grid): Cell[][] {
-    return grid.map((row: number[]): Cell[] =>
+  public static getCell(grid: Cell[], rowIndex: number, columnIndex: number): Cell {
+    return grid[rowIndex * 9 + columnIndex];
+  }
+
+  public static createCellGrid(grid: Grid): Cell[] {
+    return grid.flatMap((row: number[]): Cell[] =>
       row.map((value: number): Cell => {
         let possibilities: number = Bitmask.Possibilities;
-
         if (value) possibilities = BitmaskHelper.unset(possibilities, value);
-
         return { value, wasGiven: !!value, options: [], undo: [], possibilities };
       }),
     );
   }
 
-  public static addPossibilities(grid: Cell[][], positions: Position[], value: number): void {
+  public static addPossibilities(grid: Cell[], positions: Position[], value: number): void {
     positions.forEach(([rowIndex, columnIndex]: Position) => {
-      const cell: Cell = grid[rowIndex][columnIndex];
+      const cell: Cell = this.getCell(grid, rowIndex, columnIndex);
 
       if (BitmaskHelper.isSet(cell.possibilities, value)) return;
 
@@ -38,13 +40,20 @@ export class GridHelper {
     });
   }
 
-  public static toGrid(cellGrid: Cell[][]): Grid {
-    return cellGrid.map((row: Cell[]): number[] => row.map((cell: Cell): number => cell.value));
+  public static toGrid(cellGrid: Cell[]): Grid {
+    const grid: Grid = [];
+    for (let rowIndex: number = 0; rowIndex < 9; rowIndex++) {
+      grid.push([]);
+      for (let columnIndex: number = 0; columnIndex < 9; columnIndex++) {
+        grid[rowIndex].push(cellGrid[rowIndex * 9 + columnIndex].value);
+      }
+    }
+    return grid;
   }
 
-  public static setValue(grid: Cell[][], position: Position, newValue: number): boolean {
+  public static setValue(grid: Cell[], position: Position, newValue: number): boolean {
     const [rowIndex, columnIndex] = position;
-    const cell: Cell = grid[rowIndex][columnIndex];
+    const cell: Cell = this.getCell(grid, rowIndex, columnIndex);
     cell.value = newValue;
 
     const positions: Position[] = [
@@ -59,27 +68,27 @@ export class GridHelper {
     return !!undoPositions;
   }
 
-  private static removePossibilities(grid: Cell[][], positions: Position[], value: number): Position[] | null {
+  private static removePossibilities(grid: Cell[], positions: Position[], value: number): Position[] | null {
     const affectedPositions: Position[] = positions
       .filter(([rowIndex, columnIndex]: Position) =>
-        BitmaskHelper.isSet(grid[rowIndex][columnIndex].possibilities, value),
+        BitmaskHelper.isSet(this.getCell(grid, rowIndex, columnIndex).possibilities, value),
       )
       .map(([rowIndex, columnIndex]: Position) => {
-        const cell: Cell = grid[rowIndex][columnIndex];
+        const cell: Cell = this.getCell(grid, rowIndex, columnIndex);
         cell.possibilities = BitmaskHelper.unset(cell.possibilities, value);
 
         return [rowIndex, columnIndex];
       });
 
     const invalidCells: Position[] = affectedPositions.filter(([rowIndex, columnIndex]: Position) => {
-      const cell: Cell = grid[rowIndex][columnIndex];
+      const cell: Cell = this.getCell(grid, rowIndex, columnIndex);
       return BitmaskHelper.isEmpty(cell.possibilities) && cell.value === 0;
     });
 
     if (invalidCells.length === 0) return affectedPositions;
 
     affectedPositions.forEach(([rowIndex, columnIndex]: Position) => {
-      const cell: Cell = grid[rowIndex][columnIndex];
+      const cell: Cell = this.getCell(grid, rowIndex, columnIndex);
       cell.possibilities = BitmaskHelper.set(cell.possibilities, value);
     });
 

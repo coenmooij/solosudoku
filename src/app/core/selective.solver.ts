@@ -5,13 +5,13 @@ import { BitmaskHelper } from '../helpers/bitmask.helper';
 export class SelectiveSolver {
   /** Selectively finds a solution by only filling the positions provided */
   public static solve(grid: Grid, positions: Position[]): Grid {
-    const solveGrid: Cell[][] = GridHelper.createCellGrid(grid);
+    const solveGrid: Cell[] = GridHelper.createCellGrid(grid);
 
     for (let positionIndex: number = 0; positionIndex < positions.length; positionIndex++) {
       if (positionIndex < 0) throw new UnsolvableException();
 
       const [rowIndex, columnIndex]: Position = positions[positionIndex];
-      const cell: Cell = solveGrid[rowIndex][columnIndex];
+      const cell: Cell = GridHelper.getCell(solveGrid, rowIndex, columnIndex);
 
       // First hit on cell
       if (cell.value === 0) {

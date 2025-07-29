@@ -12,7 +12,7 @@ import { GridHelper, GridValidator } from '../../helpers';
 })
 export class HomePage implements OnInit {
   public puzzle?: Puzzle;
-  public grid: Cell[][] = [];
+  public grid: Cell[] = [];
   public isValid?: boolean; // TODO : Change to state object
   public difficultyControl: FormControl = new FormControl('medium');
 
@@ -28,16 +28,14 @@ export class HomePage implements OnInit {
     this.isValid = undefined; // TODO : Set initial state
 
     // TODO : Move to gridhelper
-    this.grid.forEach((row: Cell[]) =>
-      row.forEach((cell: Cell) => {
-        if (!cell.wasGiven) {
-          cell.value = 0;
-          cell.options = [];
-          cell.possibilities = Bitmask.Possibilities;
-          cell.undo = [];
-        }
-      }),
-    );
+    this.grid.forEach((cell: Cell) => {
+      if (!cell.wasGiven) {
+        cell.value = 0;
+        cell.options = [];
+        cell.possibilities = Bitmask.Possibilities;
+        cell.undo = [];
+      }
+    });
   }
 
   public onNewPuzzle(): void {
