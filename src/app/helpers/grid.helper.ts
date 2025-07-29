@@ -69,28 +69,29 @@ export class GridHelper {
   }
 
   private static removePossibilities(grid: Cell[], positions: Position[], value: number): Position[] | null {
-    const affectedPositions: Position[] = positions
-      .filter(([rowIndex, columnIndex]: Position) =>
-        BitmaskHelper.isSet(this.getCell(grid, rowIndex, columnIndex).possibilities, value),
-      )
-      .map(([rowIndex, columnIndex]: Position) => {
-        const cell: Cell = this.getCell(grid, rowIndex, columnIndex);
-        cell.possibilities = BitmaskHelper.unset(cell.possibilities, value);
-
-        return [rowIndex, columnIndex];
-      });
-
-    const invalidCells: Position[] = affectedPositions.filter(([rowIndex, columnIndex]: Position) => {
+    const affectedPositions: Position[] = [];
+    for (const [rowIndex, columnIndex] of positions) {
       const cell: Cell = this.getCell(grid, rowIndex, columnIndex);
-      return BitmaskHelper.isEmpty(cell.possibilities) && cell.value === 0;
-    });
+      if (BitmaskHelper.isSet(cell.possibilities, value)) {
+        cell.possibilities = BitmaskHelper.unset(cell.possibilities, value);
+        affectedPositions.push([rowIndex, columnIndex]);
+      }
+    }
+
+    const invalidCells: Position[] = [];
+    for (const [rowIndex, columnIndex] of affectedPositions) {
+      const cell: Cell = this.getCell(grid, rowIndex, columnIndex);
+      if (BitmaskHelper.isEmpty(cell.possibilities) && cell.value === 0) {
+        invalidCells.push([rowIndex, columnIndex]);
+      }
+    }
 
     if (invalidCells.length === 0) return affectedPositions;
 
-    affectedPositions.forEach(([rowIndex, columnIndex]: Position) => {
+    for (const [rowIndex, columnIndex] of affectedPositions) {
       const cell: Cell = this.getCell(grid, rowIndex, columnIndex);
       cell.possibilities = BitmaskHelper.set(cell.possibilities, value);
-    });
+    }
 
     return null;
   }
