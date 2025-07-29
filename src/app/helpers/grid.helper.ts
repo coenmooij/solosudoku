@@ -51,8 +51,7 @@ export class GridHelper {
     return grid;
   }
 
-  public static setValue(grid: Cell[], position: Position, newValue: number): boolean {
-    const [rowIndex, columnIndex] = position;
+  public static setValue(grid: Cell[], rowIndex: number, columnIndex: number, newValue: number): boolean {
     const cell: Cell = this.getCell(grid, rowIndex, columnIndex);
     cell.value = newValue;
 

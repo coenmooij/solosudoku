@@ -36,7 +36,7 @@ export class SelectiveSolver {
       // Try another option
       const newValue = cell.options.pop() as number;
 
-      const result: boolean = GridHelper.setValue(solveGrid, [rowIndex, columnIndex], newValue);
+      const result: boolean = GridHelper.setValue(solveGrid, rowIndex, columnIndex, newValue);
       if (!result) {
         cell.undo = [];
         positionIndex--;
