@@ -1,7 +1,5 @@
+import { BOX_POSITIONS, COLUMN_POSITIONS, ROW_POSITIONS } from '@solosudoku/configuration';
 import { Bitmask, Cell, Grid, Position } from '@solosudoku/models';
-import { BOX_POSITIONS } from '../configuration/box.position.config';
-import { COLUMN_POSITIONS } from '../configuration/column.position.config';
-import { ROW_POSITIONS } from '../configuration/row.position.config';
 import { BitmaskHelper } from './bitmask.helper';
 
 export class GridHelper {

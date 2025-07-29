@@ -1,7 +1,6 @@
+import { COLUMN_POSITIONS, ROW_POSITIONS } from '@solosudoku/configuration';
 import { Generator, GridHelper, numberSort } from '@solosudoku/helpers';
 import { Grid, Position } from '@solosudoku/models';
-import { COLUMN_POSITIONS } from '../app/configuration/column.position.config';
-import { ROW_POSITIONS } from '../app/configuration/row.position.config';
 import { SelectiveSolver } from '../app/core';
 
 describe('SelectiveSolver', () => {
