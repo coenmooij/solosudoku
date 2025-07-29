@@ -28,4 +28,13 @@ export class BitmaskHelper {
   public static toString(mask: number, length: number = 10): string {
     return '0b' + mask.toString(2).padStart(length, '0');
   }
+
+  public static count(mask: number): number {
+    let count: number = 0;
+    while (mask) {
+      count += mask & 1;
+      mask >>>= 1;
+    }
+    return count;
+  }
 }

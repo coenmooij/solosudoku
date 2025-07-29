@@ -79,4 +79,27 @@ describe('BitmaskHelper', () => {
     const array: number[] = BitmaskHelper.toArray(0b0110);
     expect(array).toEqual([1, 2]);
   });
+
+  describe('count', () => {
+    it('should count', () => {
+      const mask: number = 0b1110;
+      const count: number = BitmaskHelper.count(mask);
+
+      expect(count).toBe(3);
+    });
+
+    it('should count twice', () => {
+      const mask: number = 0b0101;
+      const count: number = BitmaskHelper.count(mask);
+
+      expect(count).toBe(2);
+    });
+
+    it('should count thrice', () => {
+      const mask: number = 0b10101;
+      const count: number = BitmaskHelper.count(mask);
+
+      expect(count).toBe(3);
+    });
+  });
 });
