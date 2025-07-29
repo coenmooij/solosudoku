@@ -28,3 +28,5 @@ describe('SolutionGenerator', () => {
 // Replace removePossibilities arrays // 55-60 // 30µs improvement
 // Fix possibilities overhead // 50-55 // 5µs improvement
 // Implement linear solver // 45-55 // 5µs improvement
+
+// Smart selective solver // 90-100 // not as fast as linear

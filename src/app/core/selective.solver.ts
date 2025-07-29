@@ -21,7 +21,7 @@ export class SelectiveSolver {
       // Cell has been hit before
       if (cell.value > 0) {
         // Undo previous attempts if present
-        GridHelper.addPossibilities(solveGrid, cell.undo, cell.value);
+        GridHelper.undoPossibilities(solveGrid, cell.undo, cell.value);
         cell.undo = [];
 
         // Out of options, go back to previous cell

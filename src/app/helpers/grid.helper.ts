@@ -28,7 +28,7 @@ export class GridHelper {
     );
   }
 
-  public static addPossibilities(grid: Cell[], positions: Position[], value: number): void {
+  public static undoPossibilities(grid: Cell[], positions: Position[], value: number): void {
     positions.forEach(([rowIndex, columnIndex]: Position) => {
       const cell: Cell = this.getCell(grid, rowIndex, columnIndex);
 
