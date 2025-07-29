@@ -58,11 +58,10 @@ describe('SelectiveSolver', () => {
 
   it('should solve the first box', () => {
     const grid: Grid = GridHelper.createEmptyGrid();
-    const boxPosition: Position = [0, 0];
-    const positions: Position[] = GridHelper.getBoxPositions(boxPosition);
+    const positions: Position[] = GridHelper.getBoxPositions(0, 0);
 
     const result: Grid = SelectiveSolver.solve(grid, positions);
-    const column: number[] = GridHelper.getBoxValues(result, boxPosition);
+    const column: number[] = GridHelper.getBoxValues(result, 0, 0);
     const sortedColumn: number[] = column.sort(numberSort);
 
     expect(sortedColumn).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);

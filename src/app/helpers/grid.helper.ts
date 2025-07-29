@@ -1,4 +1,5 @@
 import { Bitmask, Cell, Grid, Position } from '@solosudoku/models';
+import { BOX_POSITIONS } from '../configuration/box.position.config';
 import { COLUMN_POSITIONS } from '../configuration/column.position.config';
 import { ROW_POSITIONS } from '../configuration/row.position.config';
 import { BitmaskHelper } from './bitmask.helper';
@@ -49,7 +50,7 @@ export class GridHelper {
     const positions: Position[] = [
       ...ROW_POSITIONS[rowIndex],
       ...COLUMN_POSITIONS[columnIndex],
-      ...this.getBoxPositions([rowIndex, columnIndex]),
+      ...this.getBoxPositions(rowIndex, columnIndex),
     ];
 
     const undoPositions: Position[] | null = this.removePossibilities(grid, positions, newValue);
@@ -93,30 +94,23 @@ export class GridHelper {
     return values;
   }
 
-  public static getBoxValues(grid: Grid, position: Position): number[] {
-    const positions: Position[] = this.getBoxPositions(position);
+  public static getBoxValues(grid: Grid, rowIndex: number, columnIndex: number): number[] {
+    const positions: Position[] = this.getBoxPositions(rowIndex, columnIndex);
 
     return positions.map(([rowIndex, columnIndex]: Position) => grid[rowIndex][columnIndex]);
   }
 
-  public static getBoxPositions(position: Position): Position[] {
-    const [firstRowIndex, firstColumnIndex] = this.getFirstBoxPosition(position);
-    const positions: Position[] = [];
+  public static getBoxPositions(rowIndex: number, columnIndex: number): Position[] {
+    const boxIndex: number = this.getBoxIndex(rowIndex, columnIndex);
 
-    for (let rowIndex: number = firstRowIndex; rowIndex < firstRowIndex + 3; rowIndex++) {
-      for (let columnIndex: number = firstColumnIndex; columnIndex < firstColumnIndex + 3; columnIndex++) {
-        positions.push([rowIndex, columnIndex]);
-      }
-    }
-    return positions;
+    return BOX_POSITIONS[boxIndex];
   }
 
-  private static getFirstBoxPosition(position: Position): Position {
-    const [rowIndex, columnIndex] = position;
-    const firstRowIndex: number = Math.floor(rowIndex / 3) * 3;
-    const firstColumnIndex: number = Math.floor(columnIndex / 3) * 3;
+  public static getBoxIndex(rowIndex: number, columnIndex: number): number {
+    const numberOfRows: number = Math.floor(rowIndex / 3);
+    const numberOfColumns: number = Math.floor(columnIndex / 3);
 
-    return [firstRowIndex, firstColumnIndex];
+    return numberOfRows * 3 + numberOfColumns;
   }
 
   public static getColumns(cellGrid: Cell[][]): Cell[][] {
