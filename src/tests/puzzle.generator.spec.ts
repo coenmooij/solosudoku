@@ -7,7 +7,7 @@ describe('PuzzleGenerator', () => {
     let totalTime: number = 0;
     for (let i: number = 0; i < numberOfIterations; i++) {
       const start: number = performance.now();
-      PuzzleGenerator.generate(Rating.Impossible);
+      PuzzleGenerator.generate(Rating.SuperHard);
       const end: number = performance.now();
       totalTime += end - start;
     }

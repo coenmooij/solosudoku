@@ -1,10 +1,14 @@
 <div class="puzzle-summary">
   <div class="puzzle-summary__rating">
-    @for (_ of [].constructor(numberOfStars); track $index) {
-      <span>&#9733;</span>
+    @for (_ of [].constructor(Math.floor(numberOfStars)); track $index) {
+      <span class="puzzle-summary__star">&#9733;</span>
     }
-    @for (_ of [].constructor(maxNumberOfStars - numberOfStars); track $index) {
-      <span>&#9734;</span>
+    @if ((numberOfStars * 10) % 10 === 5) {
+      <span class="puzzle-summary__star puzzle-summary__star--left">&#9733;</span>
+      <span class="puzzle-summary__star puzzle-summary__star--right">&#9734;</span>
+    }
+    @for (_ of [].constructor(Math.max(Math.floor(maxNumberOfStars - numberOfStars), 0)); track $index) {
+      <span class="puzzle-summary__star">&#9734;</span>
     }
   </div>
   <h3 class="puzzle-summary__content">

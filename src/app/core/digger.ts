@@ -4,16 +4,17 @@ import { Bitmask, Grid, Position } from '@solosudoku/models';
 import { LinearSolver } from './linear.solver';
 
 export class Digger {
-  public static dig(grid: Grid, holes: number, bound: number): Grid {
+  public static dig(solution: Grid, holes: number, bound: number): Grid {
     const positions: Position[] = Randomizer.generatePositions(holes);
+    const workingGrid: Grid = GridHelper.copyGrid(solution);
 
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let index: number = 0; index < positions.length; index++) {
       const [rowIndex, columnIndex] = positions[index];
-      if (this.canRemove(grid, rowIndex, columnIndex, bound)) grid[rowIndex][columnIndex] = 0;
+      if (this.canRemove(workingGrid, rowIndex, columnIndex, bound)) workingGrid[rowIndex][columnIndex] = 0;
     }
 
-    return grid;
+    return workingGrid;
   }
 
   public static canRemove(grid: Grid, rowIndex: number, columnIndex: number, bound: number): boolean {
@@ -23,11 +24,13 @@ export class Digger {
     const numberOfPossibilities: number = BitmaskHelper.count(possibilities);
     if (numberOfPossibilities === 0) return true;
 
+    let testGrid: Grid;
+
     for (let index: number = 0; index < numberOfPossibilities; index++) {
       const value: number = BitmaskHelper.first(possibilities);
       possibilities = BitmaskHelper.unset(possibilities, value);
 
-      const testGrid: Grid = GridHelper.copyGrid(grid);
+      testGrid = GridHelper.copyGrid(grid);
       testGrid[rowIndex][columnIndex] = value;
       const solution: Grid | null = LinearSolver.solve(testGrid);
       if (solution) return false;
@@ -36,7 +39,6 @@ export class Digger {
     return true;
   }
 
-  // TODO : Performance?
   private static hasValidBounds(grid: Grid, rowIndex: number, columnIndex: number, bound: number): boolean {
     const boxIndex: number = GridHelper.getBoxIndex(rowIndex, columnIndex);
     return (

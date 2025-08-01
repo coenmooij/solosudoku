@@ -28,6 +28,30 @@ export class GridHelper {
     );
   }
 
+  public static resetGrid(solveGrid: Cell[][]): void {
+    solveGrid.forEach((row: Cell[]): void =>
+      row.forEach((cell: Cell): void => {
+        if (!cell.wasGiven) {
+          cell.value = 0;
+          cell.options = [];
+          cell.possibilities = Bitmask.Possibilities;
+          cell.undo = [];
+        }
+      }),
+    );
+  }
+
+  public static convertFlatGrid(flatGrid: Cell[]): Cell[][] {
+    const grid: Cell[][] = [];
+    for (let rowIndex: number = 0; rowIndex < 9; rowIndex++) {
+      grid.push([]);
+      for (let columnIndex: number = 0; columnIndex < 9; columnIndex++) {
+        grid[rowIndex].push(flatGrid[rowIndex * 9 + columnIndex]);
+      }
+    }
+    return grid;
+  }
+
   public static undoPossibilities(grid: Cell[], positions: Position[], value: number): void {
     positions.forEach(([rowIndex, columnIndex]: Position) => {
       const cell: Cell = this.getCell(grid, rowIndex, columnIndex);

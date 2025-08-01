@@ -7,7 +7,7 @@
             class="puzzle__cell"
             (click)="onSelectCell(currentRowIndex, currentColumnIndex)"
             [class.puzzle__cell--given]="column.wasGiven"
-            [class.puzzle__cell--selected]="rowIndex === currentColumnIndex && columnIndex === currentColumnIndex"
+            [class.puzzle__cell--selected]="rowIndex === currentRowIndex && columnIndex === currentColumnIndex"
           >
             {{ column.value === 0 ? "&nbsp;" : column.value }}
           </td>

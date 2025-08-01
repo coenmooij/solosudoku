@@ -1,9 +1,6 @@
-<!--TODO : Add difficulty back-->
-<!--  <ss-puzzle-summary [numberOfStars]="difficulty.stars">-->
-<!--    Difficulty: {{ difficulty.name }}-->
-<!--  </ss-puzzle-summary>-->
+<ss-puzzle-summary [numberOfStars]="difficulty.stars">Difficulty: {{ difficulty.name }}</ss-puzzle-summary>
 
-@if (grid) {
+@if (puzzle) {
   <ss-puzzle [grid]="grid" (cellUpdate)="isValid = undefined"></ss-puzzle>
 }
 
@@ -37,9 +34,9 @@
 <label for="difficulty">Choose Difficulty</label>
 <br />
 <select id="difficulty" type="radio" [formControl]="difficultyControl">
-  <!--  @for (difficulty of difficulties; track $index) {-->
-  <!--    <option [value]="difficulty.rating">{{ difficulty.name }}</option>-->
-  <!--  }-->
+  @for (difficulty of difficulties; track $index) {
+    <option [value]="difficulty.rating">{{ difficulty.name }}</option>
+  }
 </select>
 <br /><br />
 <ss-button (buttonClick)="onNewPuzzle()">New Puzzle</ss-button>

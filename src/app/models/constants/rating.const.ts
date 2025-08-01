@@ -1,9 +1,9 @@
 export const Rating = {
-  Tutorial: 'tutorial',
+  SuperEasy: 'super-easy',
   VeryEasy: 'very-easy',
   Easy: 'easy',
-  Medium: 'medium',
+  Normal: 'medium',
   Hard: 'hard',
-  Legendary: 'legendary',
-  Impossible: 'impossible',
+  VeryHard: 'very-hard',
+  SuperHard: 'super-hard',
 } as const;

@@ -1,3 +1,3 @@
 export * from './cell.interface';
-export * from './difficulty-config.interface';
+export * from './difficulty.interface';
 export * from './puzzle.interface';

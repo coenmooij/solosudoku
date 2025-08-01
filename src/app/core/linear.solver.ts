@@ -7,6 +7,7 @@ export class LinearSolver {
 
     for (let index: number = 0; index < 81; index++) {
       if (index < 0) return null;
+      if (solveGrid[index].wasGiven) continue;
 
       const rowIndex: number = Math.floor(index / 9);
       const columnIndex: number = index % 9;

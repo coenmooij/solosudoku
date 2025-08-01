@@ -1,10 +1,26 @@
 .puzzle-summary {
-  text-align: center;
-  padding: 2rem 2.4rem;
-  background-color: #e7e8e9;
   border-radius: 8px;
+  background-color: #e7e8e9;
+  padding: 2rem 2.4rem;
+  text-align: center;
 }
 
 .puzzle-summary__rating {
+  margin: 0 0 -1.6rem;
   font-size: 4.8rem;
+}
+
+.puzzle-summary__star {
+  display: inline-block;
+  overflow-x: hidden;
+
+  &--right,
+  &--left {
+    width: 0.5em;
+    overflow-x: hidden;
+  }
+
+  &--right {
+    direction: rtl;
+  }
 }

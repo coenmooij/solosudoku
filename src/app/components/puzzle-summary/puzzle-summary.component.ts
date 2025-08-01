@@ -9,4 +9,5 @@ export class PuzzleSummaryComponent {
   @Input({ required: true }) public numberOfStars!: number;
 
   public maxNumberOfStars: number = 5;
+  protected readonly Math = Math;
 }
