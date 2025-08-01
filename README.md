@@ -94,4 +94,4 @@ as much holes as possible
 
 - brute force probably required
 
-Anyways for now we stick with Leagcy Difficulty.
+Anyways for now we stick with Legacy Difficulty.
