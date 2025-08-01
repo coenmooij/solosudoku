@@ -158,4 +158,15 @@ export class GridHelper {
 
     return box;
   }
+
+  public static copyGrid(grid: Grid): Grid {
+    const newGrid: Grid = [];
+    for (let rowIndex: number = 0; rowIndex < 9; rowIndex++) {
+      newGrid.push([]);
+      for (let columnIndex: number = 0; columnIndex < 9; columnIndex++) {
+        newGrid[rowIndex].push(grid[rowIndex][columnIndex]);
+      }
+    }
+    return newGrid;
+  }
 }

@@ -37,4 +37,11 @@ export class BitmaskHelper {
     }
     return count;
   }
+
+  public static first(mask: number, length: number = 10): number {
+    for (let value: number = 0; value < length; value++) {
+      if (this.isSet(mask, value)) return value;
+    }
+    return -1;
+  }
 }

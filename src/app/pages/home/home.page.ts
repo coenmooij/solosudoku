@@ -3,7 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { BarComponent, ButtonComponent, NotificationComponent, PuzzleComponent } from '@solosudoku/components';
 import { PuzzleGenerator } from '@solosudoku/core';
 import { GridHelper, GridValidator } from '@solosudoku/helpers';
-import { Bitmask, Cell, Puzzle } from '@solosudoku/models';
+import { Bitmask, Cell, Puzzle, Rating, RatingType } from '@solosudoku/models';
 
 @Component({
   selector: 'ss-home',
@@ -14,7 +14,7 @@ export class HomePage implements OnInit {
   public puzzle?: Puzzle;
   public grid: Cell[][] = [];
   public isValid?: boolean; // TODO : Change to state object
-  public difficultyControl: FormControl = new FormControl('medium');
+  public difficultyControl: FormControl<RatingType> = new FormControl(Rating.Medium, { nonNullable: true });
 
   public ngOnInit(): void {
     this.onNewPuzzle();
@@ -43,7 +43,46 @@ export class HomePage implements OnInit {
   public onNewPuzzle(): void {
     // TODO : Loading / disabled state for button / puzzle
 
-    PuzzleGenerator.generate$(this.difficultyControl.value).subscribe((puzzle: Puzzle) => this.loadPuzzle(puzzle));
+    PuzzleGenerator.generate$(Rating.Tutorial).subscribe((puzzle: Puzzle) => this.loadPuzzle(puzzle));
+  }
+
+  public getDifficultyName(rating: RatingType): string {
+    switch (rating) {
+      case Rating.Tutorial:
+        return 'Tutorial';
+      case Rating.VeryEasy:
+        return 'VeryEasy';
+      case Rating.Easy:
+        return 'Easy';
+      case Rating.Hard:
+        return 'Hard';
+      case Rating.Legendary:
+        return 'Very Hard';
+      case Rating.Impossible:
+        return 'Impossible';
+      case Rating.Medium:
+      default:
+        return 'Medium';
+    }
+  }
+
+  public getDifficultyStars(rating: RatingType): number {
+    switch (rating) {
+      case Rating.Tutorial:
+        return 0.5;
+      case Rating.VeryEasy:
+        return 1;
+      case Rating.Easy:
+        return 2;
+      case Rating.Medium:
+        return 3;
+      case Rating.Hard:
+        return 4;
+      case Rating.Legendary:
+        return 5;
+      case Rating.Impossible:
+        return 6;
+    }
   }
 
   private loadPuzzle(puzzle: Puzzle): void {

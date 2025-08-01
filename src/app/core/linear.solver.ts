@@ -1,12 +1,12 @@
 import { BitmaskHelper, GridHelper, Randomizer } from '@solosudoku/helpers';
-import { Cell, Grid, UnsolvableException } from '@solosudoku/models';
+import { Cell, Grid } from '@solosudoku/models';
 
 export class LinearSolver {
-  public static solve(grid: Grid): Grid {
+  public static solve(grid: Grid): Grid | null {
     const solveGrid: Cell[] = GridHelper.createCellGrid(grid);
 
     for (let index: number = 0; index < 81; index++) {
-      if (index < 0) throw new UnsolvableException(); // Only applicable to partially-filled grids
+      if (index < 0) return null;
 
       const rowIndex: number = Math.floor(index / 9);
       const columnIndex: number = index % 9;
@@ -24,13 +24,13 @@ export class LinearSolver {
         // Undo previous attempts if present
         GridHelper.undoPossibilities(solveGrid, cell.undo, cell.value);
         cell.undo = [];
+      }
 
-        // Out of options, go back to previous cell
-        if (cell.options.length === 0) {
-          cell.value = 0;
-          index -= 2;
-          continue;
-        }
+      // Out of options, go back to previous cell
+      if (cell.options.length === 0) {
+        cell.value = 0;
+        index -= 2;
+        continue;
       }
 
       // Try another option
