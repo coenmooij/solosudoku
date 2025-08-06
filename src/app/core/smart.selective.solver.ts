@@ -26,14 +26,14 @@ export class SmartSelectiveSolver {
       } else {
         GridHelper.undoPossibilities(solveGrid, cell.undo, cell.value);
         cell.undo = [];
+      }
 
-        // Out of options; reset & go back
-        if (cell.options.length === 0) {
-          cell.value = 0;
-          visitedPositions.pop();
-          unvisitedPositions.push(index);
-          continue;
-        }
+      // Out of options; reset & go back
+      if (cell.options.length === 0) {
+        cell.value = 0;
+        visitedPositions.pop();
+        unvisitedPositions.push(index);
+        continue;
       }
 
       // Try the next option

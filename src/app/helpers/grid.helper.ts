@@ -19,13 +19,23 @@ export class GridHelper {
   }
 
   public static createCellGrid(grid: Grid): Cell[] {
-    return grid.flatMap((row: number[]): Cell[] =>
-      row.map((value: number): Cell => {
-        let possibilities: number = Bitmask.Possibilities;
-        if (value) possibilities = BitmaskHelper.unset(possibilities, value);
-        return { value, wasGiven: !!value, options: [], undo: [], possibilities };
-      }),
-    );
+    const solveGrid: Cell[] = [];
+    for (let index: number = 0; index < 81; index++) {
+      solveGrid.push({ value: 0, wasGiven: false, undo: [], options: [], possibilities: Bitmask.Possibilities });
+    }
+
+    for (let row: number = 0; row < 9; row++) {
+      for (let column: number = 0; column < 9; column++) {
+        const value: number = grid[row][column];
+        if (value === 0) continue;
+
+        this.setValue(solveGrid, row, column, value);
+        const cell: Cell = this.getCell(solveGrid, row, column);
+        cell.wasGiven = true;
+      }
+    }
+
+    return solveGrid;
   }
 
   public static resetGrid(solveGrid: Cell[][]): void {
@@ -53,13 +63,15 @@ export class GridHelper {
   }
 
   public static undoPossibilities(grid: Cell[], positions: Position[], value: number): void {
-    positions.forEach(([rowIndex, columnIndex]: Position) => {
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
+    for (let index: number = 0; index < positions.length; index++) {
+      const [rowIndex, columnIndex] = positions[index];
       const cell: Cell = this.getCell(grid, rowIndex, columnIndex);
 
-      if (BitmaskHelper.isSet(cell.possibilities, value)) return;
+      if (BitmaskHelper.isSet(cell.possibilities, value)) continue;
 
       cell.possibilities = BitmaskHelper.set(cell.possibilities, value);
-    });
+    }
   }
 
   public static toGrid(cellGrid: Cell[]): Grid {
@@ -86,7 +98,7 @@ export class GridHelper {
     const undoPositions: Position[] | null = this.removePossibilities(grid, positions, newValue);
 
     cell.undo = undoPositions ?? [];
-    return !!undoPositions;
+    return undoPositions !== null;
   }
 
   private static removePossibilities(grid: Cell[], positions: Position[], value: number): Position[] | null {
@@ -192,5 +204,16 @@ export class GridHelper {
       }
     }
     return newGrid;
+  }
+
+  public static toString(grid: Grid, emptyValue: string = '.'): string {
+    let string: string = '';
+    for (let row: number = 0; row < 9; row++) {
+      for (let column: number = 0; column < 9; column++) {
+        const value: number = grid[row][column];
+        string += value === 0 ? emptyValue : String(value);
+      }
+    }
+    return string;
   }
 }

@@ -12,27 +12,22 @@ export class SelectiveSolver {
       const [rowIndex, columnIndex]: Position = positions[positionIndex];
       const cell: Cell = GridHelper.getCell(solveGrid, rowIndex, columnIndex);
 
-      // First hit on cell
       if (cell.value === 0) {
         const options: number[] = BitmaskHelper.toArray(cell.possibilities);
         cell.options = Randomizer.generateOptions(options);
       }
 
-      // Cell has been hit before
       if (cell.value > 0) {
-        // Undo previous attempts if present
         GridHelper.undoPossibilities(solveGrid, cell.undo, cell.value);
         cell.undo = [];
-
-        // Out of options, go back to previous cell
-        if (cell.options.length === 0) {
-          cell.value = 0;
-          positionIndex -= 2;
-          continue;
-        }
       }
 
-      // Try another option
+      if (cell.options.length === 0) {
+        cell.value = 0;
+        positionIndex -= 2;
+        continue;
+      }
+
       const newValue = cell.options.pop() as number;
 
       const result: boolean = GridHelper.setValue(solveGrid, rowIndex, columnIndex, newValue);
